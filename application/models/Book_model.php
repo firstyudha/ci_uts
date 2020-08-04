@@ -9,13 +9,25 @@ class Book_model extends CI_Model{
     }
 	
 	   // start datatables
-	   var $column_order = array('book_id','book_title','author','publisher','book_category','price'); //set column field database for datatable orderable
-	   var $column_search = array('book_id', 'book_title'); //set column field database for datatable searchable
-	   var $order = array('book_id' => 'asc'); // default order
+	   var $column_order = array('s.transaction_id','b.book_title','b.author','b.publisher','b.book_category','b.price'); //set column field database for datatable orderable
+	   var $column_search = array('s.transaction_id', 'b.book_title'); //set column field database for datatable searchable
+	   var $order = array('s.transaction_id' => 'desc'); // default order
 	
 	   private function _get_datatables_query() {
-		   $this->db->select('*');
-		   $this->db->from('book');
+		//    $this->db->select('*');
+		//    $this->db->from('book');
+
+    $this->db->select('b.*,s.*');
+    $this->db->from('book as b');
+    $this->db->join('sale as s', 'b.book_id = s.book_id','inner');
+		// $this->db->query("
+		// 					SELECT book.*, sale.*
+		// 					FROM book
+		// 					INNER JOIN sale
+		// 					ON book.book_id = sale.book_id
+							
+		// 				");
+
 		   $i = 0;
 		   foreach ($this->column_search as $item) { // loop column
 			   if(@$_POST['search']['value']) { // if datatable send POST for search
@@ -51,7 +63,7 @@ class Book_model extends CI_Model{
 		   return $query->num_rows();
 	   }
 	   function count_all() {
-		   $this->db->from('book');
+		   $this->db->from('sale');
 		   return $this->db->count_all_results();
 	   }
 	   // end datatables

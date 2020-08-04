@@ -20,14 +20,14 @@ class Admin extends CI_Controller{
     foreach ($list as $item) {
         $no++;
         $row = array();
-        $row[] = $item->book_id;
+        $row[] = $item->transaction_id;
         $row[] = $item->book_title;
         $row[] = $item->author;
         $row[] = $item->publisher;
         $row[] = $item->book_category;
         $row[] = $item->price;
-        $row[] = '<a href="'.site_url('admin/book_edit/'.$item->book_id).'" class="btn btn-primary btn-xs"><i class="fa fa-pen"></i> Update</a>
-               <a href="'.site_url('admin/book_delete/'.$item->book_id).'" onclick="return confirm(\'Yakin hapus data?\')"  class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</a>';
+        $row[] = '<a href="'.site_url('admin/book_edit/'.$item->transaction_id).'" class="btn btn-primary btn-xs"><i class="fa fa-pen"></i> Update</a>
+               <a href="'.site_url('admin/book_delete/'.$item->transaction_id).'" onclick="return confirm(\'Yakin hapus data?\')"  class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</a>';
         $data[] = $row;
     }
     $output = array(
@@ -46,6 +46,10 @@ class Admin extends CI_Controller{
     $this->load->view('admin/v_header');
     $this->load->view('admin/v_admin_home');
     $this->load->view('admin/v_footer');
+  }
+
+  function datatable(){
+    $this->load->view('admin/v_datatable');
   }
 
   //BOOK
